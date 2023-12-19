@@ -1,0 +1,343 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:laundry/Resources/Colors/colors.dart';
+import 'package:laundry/Resources/Sizedbox/sizedbox.dart';
+
+import '../../Routes/app_names.dart';
+import 'Services.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Services> services = [];
+  int _currentIndex = 0;
+  late CarouselController controller;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List images = [
+    'https://picsum.photos/400/200?image=1',
+    'https://picsum.photos/400/200?image=2',
+  ];
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+
+      print(_selectedIndex);
+      if (_selectedIndex == 3) {
+        _scaffoldKey.currentState!.openDrawer();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller = CarouselController();
+
+    super.initState();
+    services.add(
+        Services(name: 'Clothing', image: 'assets/homescreen_clothing.jpg'));
+    services.add(
+        Services(name: 'Blankets', image: 'assets/homescreen_blankets.jpg'));
+    services.add(Services(
+        name: "Carpets/Furniture's",
+        image: 'assets/homescreen_carpets_furniture.jpg'));
+    services.add(Services(
+        name: 'Charity Association',
+        image: 'assets/homescreen_charity_association.jpg'));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            key: _scaffoldKey,
+            appBar: AppBar(
+              toolbarHeight: 70,
+              centerTitle: true,
+              backgroundColor: primaryColor,
+              title: Icon(
+                Icons.local_laundry_service,
+                color: Colors.white,
+                size: 50,
+              ),
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    )),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.shopping_bag_rounded,
+                      color: Colors.white,
+                    ))
+              ],
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(36), // Adjust the value as needed
+                ),
+              ),
+            ),
+            // appBar: AppBar(
+            //   backgroundColor: primaryColor,
+            //   elevation: 0,
+            // ),
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.inventory),
+                  label: 'Orders',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.local_offer),
+                  label: 'Offers',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.more_horiz_sharp),
+                  label: 'More',
+                ),
+              ],
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Colors.white,
+              backgroundColor: primaryColor,
+              unselectedItemColor: Colors.grey,
+              showUnselectedLabels: true,
+              selectedLabelStyle: GoogleFonts.ubuntu(),
+              unselectedLabelStyle: GoogleFonts.ubuntu(),
+            ),
+            drawer: const MyDrawer(),
+            body: buildHomeScreen()));
+  }
+
+  Widget buildHomeScreen() {
+    return Column(children: [
+      10.ph,
+      Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          CarouselSlider(
+            carouselController: controller,
+            items: images
+                .map((e) => ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        e.toString(),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ))
+                .toList(),
+            options: CarouselOptions(
+              aspectRatio: 2.0,
+              viewportFraction: 0.9,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            child: DotsIndicator(
+              dotsCount: images.length,
+              position: _currentIndex,
+              decorator: const DotsDecorator(
+                color: primaryColor,
+                activeColor: Colors.white,
+              ),
+              onTap: (index) {
+                setState(() {
+                  controller!.animateToPage(index);
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+      20.ph,
+      Expanded(
+        child: GridView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12.0,
+              mainAxisSpacing: 12.0,
+              // childAspectRatio: 150 / 180
+              mainAxisExtent: 230),
+          itemCount: services.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1), // Shadow color
+                      spreadRadius: 5, // Spread radius
+                      blurRadius: 6, // Blur radius
+                      offset: Offset(0, 3), // Offset for the shadow
+                    ),
+                  ],
+                  color: Colors.white),
+              child: Column(
+                children: [
+                  ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20)),
+                      child: Image.asset(
+                        services[index].image.toString(),
+                        height: 170,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )),
+                  10.ph,
+                  Text(
+                    services[index].name.toString(),
+                    style: GoogleFonts.ubuntu(
+                        fontWeight: FontWeight.w400, fontSize: 20),
+                    textAlign: TextAlign.center,
+                    // overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+      )
+    ]);
+  }
+
+  Widget buildDot(int index) {
+    return Container(
+      width: 8.0,
+      height: 8.0,
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: _currentIndex == index ? Colors.blue : Colors.grey,
+      ),
+    );
+  }
+}
+
+class MyDrawer extends StatefulWidget {
+  const MyDrawer({super.key});
+
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String? lan;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: primaryColor,
+            ),
+            child: Text(
+              'Drawer Header',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('My Profile'),
+            onTap: () {
+              // Navigate to the home screen
+              GoRouter.of(context).pushNamed(RouteNames().profile);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.inventory),
+            title: const Text('My Orders'),
+            onTap: () {
+              // Navigate to the settings screen
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: Row(
+              children: [
+                Text(lan ?? 'Languages'),
+                PopupMenuButton(
+                    onSelected: (val) {
+                      setState(() {
+                        lan = val.name;
+                      });
+                      if (kDebugMode) {
+                        print(val);
+                      }
+                    },
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<Languages>>[
+                          const PopupMenuItem(
+                            value: Languages.english,
+                            child: Text('English'),
+                          ),
+                          const PopupMenuItem(
+                            value: Languages.arabic,
+                            child: Text('Arabic'),
+                          ),
+                        ])
+              ],
+            ),
+            onTap: () {
+              // Navigate to the settings screen
+
+              // Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () {
+              // Navigate to the about screen
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+enum Languages { english, arabic }
