@@ -42,7 +42,7 @@ class Signup extends StatelessWidget {
             30.ph,
             MyButton(
               onPressed: () {
-                GoRouter.of(context).pushNamed(RouteNames().homeScreen);
+                GoRouter.of(context).pushNamed(RouteNames().laundries);
               },
               name: 'Signup',
             ),

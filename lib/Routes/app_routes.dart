@@ -6,6 +6,7 @@ import 'package:laundry/Screens/HomeScreen/home_screen.dart';
 import 'package:laundry/Screens/Laundries/laundries.dart';
 import 'package:laundry/Screens/Login/login.dart';
 import 'package:laundry/Screens/Profile/profile.dart';
+import 'package:laundry/Screens/Service%20Provider/service_provider.dart';
 import 'package:laundry/Screens/Signup/signup.dart';
 import 'package:laundry/Screens/Splash/splash.dart';
 
@@ -13,7 +14,7 @@ import '../Screens/Verification/verification.dart';
 
 class AppRoutes {
   final GoRouter routes =
-      GoRouter(initialLocation: RoutePaths().laundries, routes: [
+      GoRouter(initialLocation: RoutePaths().login, routes: [
     GoRoute(
         name: RouteNames().splash,
         path: RoutePaths().splash,
@@ -47,6 +48,11 @@ class AppRoutes {
       name: RouteNames().blanketsScreen,
       path: RoutePaths().blanketsScreen,
       builder: (context, state) => const BlanketsScreen(),
+    ),
+    GoRoute(
+      name: RouteNames().serviceProvider,
+      path: RoutePaths().serviceProvider,
+      builder: (context, state) => const ServiceProvider(),
     ),
   ]);
 }

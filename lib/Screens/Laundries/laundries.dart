@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundry/Resources/Sizedbox/sizedbox.dart';
 import 'package:laundry/Widgets/My%20Button/my_button.dart';
 
 import '../../Resources/Colors/colors.dart';
+import '../../Routes/route_names.dart';
+import '../HomeScreen/home_screen.dart';
 
 class Laundries extends StatefulWidget {
   const Laundries({super.key});
@@ -13,20 +16,69 @@ class Laundries extends StatefulWidget {
 }
 
 class _LaundriesState extends State<Laundries> {
+  int _selectedIndex = 0;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        toolbarHeight: 70,
+      key: _scaffoldKey,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inventory),
+            label: 'Orders',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_offer),
+            label: 'Offers',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.more_horiz_sharp),
+            label: 'More',
+          ),
+        ],
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.white,
         backgroundColor: primaryColor,
-        title: Text(
-          "Laundries",
-          style: GoogleFonts.ubuntu(),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        selectedLabelStyle: GoogleFonts.ubuntu(),
+        unselectedLabelStyle: GoogleFonts.ubuntu(),
+      ),
+      drawer: const MyDrawer(),
+      appBar: AppBar(
+        toolbarHeight: 74,
+        centerTitle: true,
+        backgroundColor: primaryColor,
+        title: const Icon(
+          Icons.local_laundry_service,
+          color: Colors.white,
+          size: 50,
         ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.notifications,
+                color: Colors.white,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.shopping_bag_rounded,
+                color: Colors.white,
+              ))
+        ],
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20), // Adjust the value as needed
+            bottom: Radius.circular(36), // Adjust the value as needed
           ),
         ),
       ),
@@ -100,80 +152,85 @@ class _LaundriesState extends State<Laundries> {
               scrollDirection: Axis.vertical,
               itemCount: 6,
               itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Card(
-                    child: IntrinsicHeight(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration:
-                                const BoxDecoration(color: Color(0xfff0f5f8)),
-                            child: Center(
-                              child: Image.asset(
-                                'assets/laundry.png',
-                                width: 80,
+                return GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).pushNamed(RouteNames().homeScreen);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Card(
+                      child: IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration:
+                                  const BoxDecoration(color: Color(0xfff0f5f8)),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/laundry.png',
+                                  width: 80,
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  5.ph,
-                                  Text(
-                                    "Riyadh Laundry 2023",
-                                    style: GoogleFonts.ubuntu(
-                                        fontWeight: FontWeight.w500),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  10.ph,
-                                  Text(
-                                    'Near by Riyadh ,AlHazm',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        GoogleFonts.ubuntu(color: Colors.grey),
-                                  ),
-                                  5.ph,
-                                  Row(
-                                    children: [
-                                      10.pw,
-                                      const Icon(
-                                        Icons.place,
-                                        size: 12,
-                                        color: primaryColor,
-                                      ),
-                                      5.pw,
-                                      Text(
-                                        "4km",
-                                        style: GoogleFonts.ubuntu(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      10.pw,
-                                      const Icon(
-                                        Icons.star,
-                                        size: 12,
-                                        color: Colors.amber,
-                                      ),
-                                      5.pw,
-                                      Text(
-                                        "4.5",
-                                        style: GoogleFonts.ubuntu(),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    5.ph,
+                                    Text(
+                                      "Riyadh Laundry 2023",
+                                      style: GoogleFonts.ubuntu(
+                                          fontWeight: FontWeight.w500),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    10.ph,
+                                    Text(
+                                      'Near by Riyadh ,AlHazm',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.ubuntu(
+                                          color: Colors.grey),
+                                    ),
+                                    5.ph,
+                                    Row(
+                                      children: [
+                                        10.pw,
+                                        const Icon(
+                                          Icons.place,
+                                          size: 12,
+                                          color: primaryColor,
+                                        ),
+                                        5.pw,
+                                        Text(
+                                          "4km",
+                                          style: GoogleFonts.ubuntu(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        10.pw,
+                                        const Icon(
+                                          Icons.star,
+                                          size: 12,
+                                          color: Colors.amber,
+                                        ),
+                                        5.pw,
+                                        Text(
+                                          "4.5",
+                                          style: GoogleFonts.ubuntu(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -184,5 +241,15 @@ class _LaundriesState extends State<Laundries> {
         ],
       ),
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+
+      if (_selectedIndex == 3) {
+        _scaffoldKey.currentState!.openDrawer();
+      }
+    });
   }
 }

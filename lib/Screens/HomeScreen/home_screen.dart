@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,61 +68,45 @@ class _HomeScreenState extends State<HomeScreen> {
           toolbarHeight: 74,
           centerTitle: true,
           backgroundColor: primaryColor,
-          title: const Icon(
-            Icons.local_laundry_service,
-            color: Colors.white,
-            size: 50,
+          title: Text(
+            "Services",
+            style: GoogleFonts.ubuntu(),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.shopping_bag_rounded,
-                  color: Colors.white,
-                ))
-          ],
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(36), // Adjust the value as needed
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.inventory),
-              label: 'Orders',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_offer),
-              label: 'Offers',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz_sharp),
-              label: 'More',
-            ),
-          ],
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.white,
-          backgroundColor: primaryColor,
-          unselectedItemColor: Colors.grey,
-          showUnselectedLabels: true,
-          selectedLabelStyle: GoogleFonts.ubuntu(),
-          unselectedLabelStyle: GoogleFonts.ubuntu(),
-        ),
-        drawer: const MyDrawer(),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   currentIndex: _selectedIndex,
+        //   onTap: _onItemTapped,
+        //   items: const [
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.home),
+        //       label: 'Home',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.inventory),
+        //       label: 'Orders',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.local_offer),
+        //       label: 'Offers',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Icon(Icons.more_horiz_sharp),
+        //       label: 'More',
+        //     ),
+        //   ],
+        //   type: BottomNavigationBarType.fixed,
+        //   selectedItemColor: Colors.white,
+        //   backgroundColor: primaryColor,
+        //   unselectedItemColor: Colors.grey,
+        //   showUnselectedLabels: true,
+        //   selectedLabelStyle: GoogleFonts.ubuntu(),
+        //   unselectedLabelStyle: GoogleFonts.ubuntu(),
+        // ),
         body: buildHomeScreen());
   }
 
@@ -263,8 +246,6 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  String? lan;
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -300,44 +281,11 @@ class _MyDrawerState extends State<MyDrawer> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.language),
-            title: Row(
-              children: [
-                Text(lan ?? 'Languages'),
-                PopupMenuButton(
-                    onSelected: (val) {
-                      setState(() {
-                        lan = val.name;
-                      });
-                      if (kDebugMode) {
-                        print(val);
-                      }
-                    },
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<Languages>>[
-                          const PopupMenuItem(
-                            value: Languages.english,
-                            child: Text('English'),
-                          ),
-                          const PopupMenuItem(
-                            value: Languages.arabic,
-                            child: Text('Arabic'),
-                          ),
-                        ])
-              ],
-            ),
-            onTap: () {
-              // Navigate to the settings screen
-
-              // Navigator.pop(context);
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.people),
             title: const Text('Service Providers'),
             onTap: () {
               // Navigate to the settings screen
-              Navigator.pop(context);
+              GoRouter.of(context).pushNamed(RouteNames().serviceProvider);
             },
           ),
           ListTile(
@@ -353,5 +301,3 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 }
-
-enum Languages { english, arabic }

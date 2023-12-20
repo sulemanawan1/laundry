@@ -7,4 +7,5 @@ class RoutePaths {
   final String laundries = "/laundries";
   final String profile = "/profile";
   final String blanketsScreen = "/blankets";
+  final String serviceProvider = "/serviceprovider";
 }
