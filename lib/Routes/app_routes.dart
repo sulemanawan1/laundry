@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:laundry/Routes/app_names.dart';
+import 'package:laundry/Routes/route_names.dart';
+import 'package:laundry/Routes/route_paths.dart';
+import 'package:laundry/Screens/Blankets%20Screen/blankets_screen.dart';
 import 'package:laundry/Screens/HomeScreen/home_screen.dart';
 import 'package:laundry/Screens/Laundries/laundries.dart';
 import 'package:laundry/Screens/Login/login.dart';
@@ -10,34 +12,41 @@ import 'package:laundry/Screens/Splash/splash.dart';
 import '../Screens/Verification/verification.dart';
 
 class AppRoutes {
-  final GoRouter routes = GoRouter(initialLocation: '/login', routes: [
+  final GoRouter routes =
+      GoRouter(initialLocation: RoutePaths().laundries, routes: [
     GoRoute(
         name: RouteNames().splash,
-        path: '/',
+        path: RoutePaths().splash,
         builder: (context, state) => const Splash()),
     GoRoute(
         name: RouteNames().login,
-        path: '/login',
+        path: RoutePaths().login,
         builder: (context, state) => const Login()),
     GoRoute(
         name: RouteNames().homeScreen,
-        path: '/home',
-        builder: (context, state) => HomeScreen()),
+        path: RoutePaths().homeScreen,
+        builder: (context, state) => const HomeScreen()),
     GoRoute(
         name: RouteNames().signUp,
-        path: '/signup',
+        path: RoutePaths().signUp,
         builder: (context, state) => const Signup()),
     GoRoute(
         name: RouteNames().verification,
-        path: '/verification',
+        path: RoutePaths().verification,
         builder: (context, state) => const Verification()),
     GoRoute(
         name: RouteNames().laundries,
-        path: '/laundries',
+        path: RoutePaths().laundries,
         builder: (context, state) => const Laundries()),
     GoRoute(
-        name: RouteNames().profile,
-        path: '/profile',
-        builder: (context, state) => const Profile()),
+      name: RouteNames().profile,
+      path: RoutePaths().profile,
+      builder: (context, state) => const Profile(),
+    ),
+    GoRoute(
+      name: RouteNames().blanketsScreen,
+      path: RoutePaths().blanketsScreen,
+      builder: (context, state) => const BlanketsScreen(),
+    ),
   ]);
 }

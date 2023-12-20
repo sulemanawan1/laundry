@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laundry/Resources/Sizedbox/sizedbox.dart';
-import 'package:laundry/Routes/app_names.dart';
+import 'package:laundry/Routes/route_names.dart';
 
 import '../../Helpers/Validation Helper/validation_helper.dart';
 import '../../Widgets/My Button/my_button.dart';

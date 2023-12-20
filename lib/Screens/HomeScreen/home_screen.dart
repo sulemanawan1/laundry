@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:laundry/Resources/Colors/colors.dart';
 import 'package:laundry/Resources/Sizedbox/sizedbox.dart';
 
-import '../../Routes/app_names.dart';
+import '../../Routes/route_names.dart';
 import 'Services.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,8 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List images = [
-    'https://picsum.photos/400/200?image=1',
-    'https://picsum.photos/400/200?image=2',
+    'assets/carousel-1.jpg',
+    'assets/carousel-2.jpg',
+    'assets/carousel-3.jpg',
+    'assets/carousel-4.jpg',
   ];
 
   int _selectedIndex = 0;
@@ -61,73 +63,68 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            key: _scaffoldKey,
-            appBar: AppBar(
-              toolbarHeight: 70,
-              centerTitle: true,
-              backgroundColor: primaryColor,
-              title: Icon(
-                Icons.local_laundry_service,
-                color: Colors.white,
-                size: 50,
-              ),
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.shopping_bag_rounded,
-                      color: Colors.white,
-                    ))
-              ],
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(36), // Adjust the value as needed
-                ),
-              ),
+    return Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          toolbarHeight: 74,
+          centerTitle: true,
+          backgroundColor: primaryColor,
+          title: const Icon(
+            Icons.local_laundry_service,
+            color: Colors.white,
+            size: 50,
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.notifications,
+                  color: Colors.white,
+                )),
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.shopping_bag_rounded,
+                  color: Colors.white,
+                ))
+          ],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(36), // Adjust the value as needed
             ),
-            // appBar: AppBar(
-            //   backgroundColor: primaryColor,
-            //   elevation: 0,
-            // ),
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.inventory),
-                  label: 'Orders',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.local_offer),
-                  label: 'Offers',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.more_horiz_sharp),
-                  label: 'More',
-                ),
-              ],
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.white,
-              backgroundColor: primaryColor,
-              unselectedItemColor: Colors.grey,
-              showUnselectedLabels: true,
-              selectedLabelStyle: GoogleFonts.ubuntu(),
-              unselectedLabelStyle: GoogleFonts.ubuntu(),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
             ),
-            drawer: const MyDrawer(),
-            body: buildHomeScreen()));
+            BottomNavigationBarItem(
+              icon: Icon(Icons.inventory),
+              label: 'Orders',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_offer),
+              label: 'Offers',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.more_horiz_sharp),
+              label: 'More',
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.white,
+          backgroundColor: primaryColor,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          selectedLabelStyle: GoogleFonts.ubuntu(),
+          unselectedLabelStyle: GoogleFonts.ubuntu(),
+        ),
+        drawer: const MyDrawer(),
+        body: buildHomeScreen());
   }
 
   Widget buildHomeScreen() {
@@ -141,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
             items: images
                 .map((e) => ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
+                      child: Image.asset(
                         e.toString(),
                         fit: BoxFit.cover,
                         width: double.infinity,
@@ -192,42 +189,51 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisSpacing: 12.0,
               mainAxisSpacing: 12.0,
               // childAspectRatio: 150 / 180
-              mainAxisExtent: 230),
+              mainAxisExtent: 220),
           itemCount: services.length,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1), // Shadow color
-                      spreadRadius: 5, // Spread radius
-                      blurRadius: 6, // Blur radius
-                      offset: Offset(0, 3), // Offset for the shadow
-                    ),
+            return GestureDetector(
+              onTap: () {
+                if (services[index].name.toString() == 'Blankets') {
+                  GoRouter.of(context).pushNamed(RouteNames().blanketsScreen);
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1), // Shadow color
+                        spreadRadius: 5, // Spread radius
+                        blurRadius: 6, // Blur radius
+                        offset: const Offset(0, 3), // Offset for the shadow
+                      ),
+                    ],
+                    color: Colors.white),
+                child: Column(
+                  children: [
+                    ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
+                        child: Image.asset(
+                          services[index].image.toString(),
+                          height: 160,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        )),
+                    10.ph,
+                    Text(
+                      services[index].name.toString(),
+                      style: GoogleFonts.ubuntu(
+                          fontWeight: FontWeight.w500, fontSize: 18),
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      // overflow: TextOverflow.ellipsis,
+                    )
                   ],
-                  color: Colors.white),
-              child: Column(
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20)),
-                      child: Image.asset(
-                        services[index].image.toString(),
-                        height: 170,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      )),
-                  10.ph,
-                  Text(
-                    services[index].name.toString(),
-                    style: GoogleFonts.ubuntu(
-                        fontWeight: FontWeight.w400, fontSize: 20),
-                    textAlign: TextAlign.center,
-                    // overflow: TextOverflow.ellipsis,
-                  )
-                ],
+                ),
               ),
             );
           },
@@ -324,6 +330,14 @@ class _MyDrawerState extends State<MyDrawer> {
               // Navigate to the settings screen
 
               // Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.people),
+            title: const Text('Service Providers'),
+            onTap: () {
+              // Navigate to the settings screen
+              Navigator.pop(context);
             },
           ),
           ListTile(
