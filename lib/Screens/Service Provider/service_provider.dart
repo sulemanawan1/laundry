@@ -35,8 +35,9 @@ class _ServiceProviderState extends State<ServiceProvider> {
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            20.ph,
             MyTextFormField(
                 hintText: 'Mobile Number', labelText: 'Mobile Number'),
             20.ph,
@@ -46,7 +47,7 @@ class _ServiceProviderState extends State<ServiceProvider> {
             20.ph,
             Text(
               "Select Services",
-              style: GoogleFonts.ubuntu(),
+              style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
             ),
             20.ph,
             SizedBox(

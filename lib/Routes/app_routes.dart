@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:laundry/Routes/route_names.dart';
 import 'package:laundry/Routes/route_paths.dart';
 import 'package:laundry/Screens/Blankets%20Screen/blankets_screen.dart';
+import 'package:laundry/Screens/Carpets%20Screens/carpet_screens.dart';
 import 'package:laundry/Screens/HomeScreen/home_screen.dart';
 import 'package:laundry/Screens/Laundries/laundries.dart';
 import 'package:laundry/Screens/Login/login.dart';
@@ -53,6 +54,11 @@ class AppRoutes {
       name: RouteNames().serviceProvider,
       path: RoutePaths().serviceProvider,
       builder: (context, state) => const ServiceProvider(),
+    ),
+    GoRoute(
+      name: RouteNames().carpetsScreen,
+      path: RoutePaths().carpetsScreen,
+      builder: (context, state) => const CarpetScreens(),
     ),
   ]);
 }

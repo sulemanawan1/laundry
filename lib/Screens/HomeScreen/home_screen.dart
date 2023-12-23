@@ -179,6 +179,9 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 if (services[index].name.toString() == 'Blankets') {
                   GoRouter.of(context).pushNamed(RouteNames().blanketsScreen);
+                } else if (services[index].name.toString() ==
+                    "Carpets/Furniture's") {
+                  GoRouter.of(context).pushNamed(RouteNames().carpetsScreen);
                 }
               },
               child: Container(
