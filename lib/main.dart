@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:laundry/Resources/Colors/colors.dart';
 import 'package:laundry/Routes/app_routes.dart';
 
 void main() {
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: AppRoutes().routes,
+      theme: ThemeData(primaryColor: primaryColor),
       debugShowCheckedModeBanner: false,
     );
   }
