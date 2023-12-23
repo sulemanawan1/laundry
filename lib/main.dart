@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: AppRoutes().routes,
-      theme: ThemeData(primaryColor: primaryColor),
+      theme: ThemeData(primaryColor: primaryColor, useMaterial3: false),
       debugShowCheckedModeBanner: false,
     );
   }
